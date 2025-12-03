@@ -1,0 +1,308 @@
+# Default config for sway - Enhanced version
+include ~/.cache/wal/colors-sway
+### Variables
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term kitty
+set $menu wofi --show drun
+
+### Visual Improvements
+# Window decorations
+default_border pixel 2
+default_floating_border pixel 2
+titlebar_border_thickness 2
+titlebar_padding 10 2
+
+# Color scheme
+set $bg $background
+set $fg $foreground
+set $accent $color4
+set $urgent $color1
+set $inactive $background
+
+# Rounded corners
+corner_radius 10
+
+# Window colors          border    bg        text      indicator  child_border
+client.focused           $accent   $accent   $bg       $accent    $accent
+client.focused_inactive  $inactive $inactive $fg       $inactive  $inactive
+client.unfocused         $bg       $bg       $fg       $bg        $bg
+client.urgent            $urgent   $urgent   $bg       $urgent    $urgent
+
+# Gaps
+gaps inner 2
+gaps outer 3
+smart_gaps on
+smart_borders on
+
+### Output configuration
+exec ~/.config/sway/restore-wallpaper.sh
+
+### Window Rules - Your Apps
+
+# Media viewers - FLOAT automatically (centered)
+for_window [app_id="mpv"] floating enable, resize set width 1200 height 700, move position center
+for_window [class="Nsxiv"] floating enable, resize set width 900 height 700, move position center
+for_window [app_id="nsxiv"] floating enable, resize set width 900 height 700, move position center
+
+# Document viewer - Zathura - FLOAT
+for_window [app_id="org.pwmt.zathura"] floating enable, resize set width 900 height 1000, move position center
+
+# File manager - Thunar - FLOAT
+for_window [class="^(?i)thunar$"] floating enable, resize set width 1000 height 700, move position center
+for_window [app_id="thunar"] floating enable, resize set width 1000 height 700, move position center
+
+# Audio control - Pavucontrol - FLOAT
+for_window [app_id="pavucontrol"] floating enable, resize set width 800 height 600, move position center
+for_window [class="Pavucontrol"] floating enable, resize set width 800 height 600, move position center
+
+# Firefox popups and child windows
+for_window [app_id="firefox" window_role="pop-up"] floating enable
+for_window [app_id="firefox" window_role="task_dialog"] floating enable
+for_window [app_id="firefox" window_type="dialog"] floating enable
+
+# Discord popups
+for_window [class="discord" window_type="dialog"] floating enable
+
+# Obsidian popups
+for_window [class="obsidian" window_type="dialog"] floating enable
+
+# Steam popups
+for_window [class="^[Ss]team$" title="^Friends List$"] floating enable
+for_window [class="^[Ss]team$" title="Steam - News"] floating enable
+for_window [class="^[Ss]team$" title=".* - Chat"] floating enable
+for_window [class="^[Ss]team$" title="^Settings$"] floating enable
+for_window [class="^[Ss]team$" title=".* - event started"] floating enable
+for_window [class="^[Ss]team$" title=".* CD key"] floating enable
+for_window [class="^[Ss]team$" title="^Steam - Self Updater$"] floating enable
+for_window [class="^[Ss]team$" title="^Screenshot Uploader$"] floating enable
+for_window [class="^[Ss]team$" title="^Steam Guard - Computer Authorization Required$"] floating enable
+
+# Generic dialog/popup windows (catches most child windows)
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="dialog"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="utility"] floating enable
+for_window [window_type="toolbar"] floating enable
+for_window [window_type="splash"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [window_role="Preferences"] floating enable
+
+# Settings/preferences windows
+for_window [title="(?i)preferences$"] floating enable
+for_window [title="(?i)settings$"] floating enable
+for_window [title="(?i)properties$"] floating enable
+
+# Center all floating windows by default
+for_window [floating] move position center
+
+# Kitty - specific floating instances only
+for_window [app_id="kitty" title="floating"] floating enable, resize set width 1000 height 700, move position center
+for_window [app_id="kitty" title="^yazi$"] floating enable, resize set width 1000 height 700, move position center
+for_window [app_id="kitty" title="^btop$"] floating enable, resize set width 1100 height 700, move position center
+
+
+### Input configuration
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+    accel_profile adaptive
+    pointer_accel 0.4
+}
+input type:mouse {
+    accel_profile flat
+    pointer_accel 0.8 
+    natural_scroll disabled
+    xkb_options caps:escape
+}
+input type:keyboard {
+    repeat_delay 300
+    repeat_rate 50
+}
+input type:pointer {
+    accel_profile flat
+    pointer_accel 0
+    natural_scroll disabled
+}
+
+# Focus settings
+focus_follows_mouse yes
+mouse_warping container
+focus_on_window_activation smart
+
+### Seat configuration
+seat * {
+    hide_cursor when-typing enable
+    hide_cursor 8000
+    cursor theme Bibata-Modern-Classic
+    cursor size 24
+}
+
+### Startup applications
+exec udiskie --tray
+exec_always --no-startup-id mako
+exec_always blueman-applet
+exec ~/.config/sway/battery.sh
+
+### Key bindings
+
+
+### Simple Master-Stack Keybinds
+# Enable master-stack (left 60%, right 40%)
+bindsym $mod+m splith, focus parent, splitv, focus parent, focus left, resize set width 60ppt
+
+# Focus between master and stack
+bindsym $mod+Tab focus right
+bindsym $mod+Shift+Tab focus left
+
+# Swap current window with master
+bindsym $mod+Shift+m move left, splith, resize set width 60ppt
+
+# Adjust master width
+bindsym $mod+equal resize shrink width 5ppt
+bindsym $mod+minus resize grow width 5ppt
+# Basics
+bindsym $mod+Shift+q exec kitty --title floating
+bindsym $mod+q exec $term
+bindsym $mod+c kill
+bindsym $mod+d exec $menu
+floating_modifier $mod normal
+bindsym $mod+Shift+c reload
+bindsym $mod+Alt+c exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
+
+# Moving around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Enhanced floating window movement (larger increments)
+bindsym $mod+Ctrl+$left move left 50px
+bindsym $mod+Ctrl+$down move down 50px
+bindsym $mod+Ctrl+$up move up 50px
+bindsym $mod+Ctrl+$right move right 50px
+bindsym $mod+Ctrl+Left move left 50px
+bindsym $mod+Ctrl+Down move down 50px
+bindsym $mod+Ctrl+Up move up 50px
+bindsym $mod+Ctrl+Right move right 50px
+
+# Quick floating window positioning
+bindsym $mod+Ctrl+c move position center
+bindsym $mod+Ctrl+t move position 50 50
+bindsym $mod+Ctrl+b move position 50 920
+
+# Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Layout
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+#bindsym $mod+a focus parent
+
+# Wallpaper and theming
+include $HOME/.cache/wal/colors-sway
+bindsym $mod+Ctrl+p exec ~/.config/sway/set-wallpaper-pywal.sh next
+bindsym $mod+Alt+p exec ~/.config/sway/set-wallpaper-pywal.sh prev
+bindsym $mod+Shift+p exec ~/.config/sway/refresh.sh
+
+# Scratchpad
+bindsym $mod+a move scratchpad
+bindsym $mod+Shift+a scratchpad show
+
+# Enhanced resizing mode
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+    
+    bindsym Shift+$left resize shrink width 50px
+    bindsym Shift+$down resize grow height 50px
+    bindsym Shift+$up resize shrink height 50px
+    bindsym Shift+$right resize grow width 50px
+    bindsym Shift+Left resize shrink width 50px
+    bindsym Shift+Down resize grow height 50px
+    bindsym Shift+Up resize shrink height 50px
+    bindsym Shift+Right resize grow width 50px
+    
+    bindsym 1 resize set width 800px height 600px
+    bindsym 2 resize set width 1000px height 700px
+    bindsym 3 resize set width 1200px height 800px
+    bindsym 4 resize set width 1400px height 900px
+    
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+# Utilities
+bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+
+# Screenshots
+bindsym Print exec ~/.config/sway/screenshot-flash.sh fullscreen
+bindsym Shift+Print exec grim -g "$(slurp)" - | tee "$HOME/Pictures/Screenshots/screenshot-$(date +'%Y%m%d-%H%M%S').png" | wl-copy && notify-send -t 5000 "Screenshot Saved" "Area screenshot saved\nCopied to clipboard"
+exec wl-paste -t text --watch clipman store
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec --no-startup-id systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
+# Status bar
+bar swaybar_command waybar
+
+# Include system configs
+include /etc/sway/config.d/*

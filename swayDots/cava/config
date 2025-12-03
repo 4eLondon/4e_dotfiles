@@ -1,0 +1,6 @@
+[color]
+gradient = 1
+gradient_count = 6
+gradient_color_1 = '#969596'  # Accent immediately
+gradient_color_2 = '#C5C9B3'  # Vibrant cyan
+gradient_color_3 = '#C5C9B3'  # Bright cyan

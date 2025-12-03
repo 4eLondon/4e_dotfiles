@@ -1,0 +1,124 @@
+@import "colors.css";
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 14px;
+  font-weight: bold;
+  min-height: 0;
+}
+
+window#waybar {
+  background: rgba(12, 13, 15, 0.5);
+  color: @foreground;
+  border-bottom: none;
+}
+
+#workspaces button {
+  padding: 0 12px;
+  background: transparent;
+  color: @color8;
+  border-bottom: 2px solid transparent;
+  margin: 0 2px;
+}
+
+#workspaces button.active {
+  color: @color13;
+  border-bottom: 2px solid @color13;
+}
+
+v #workspaces button.active {
+  color: @foreground;
+  /* optional: improve contrast if @color13 is too bright/dark */
+  background-color: @color13;
+  border-radius: 50%;
+  padding: 4px 8px;
+  /* adjust as needed—symmetrical padding helps keep it circular */
+  min-width: 24px;
+  /* ensure it’s wide enough to be a circle (match height) */
+  /* remove or override inherited border */
+  border: none;
+}
+
+#workspaces button:hover {
+  background: transparent;
+  color: @foreground;
+}
+
+#window {
+  color: @color12;
+  padding: 0 16px;
+}
+
+/* Individual module text colors using pywal colors */
+#network {
+  color: @color5;
+  padding: 0 12px;
+}
+
+#pulseaudio {
+  color: @color4;
+  padding: 0 12px;
+}
+
+#backlight {
+  color: @color11;
+  padding: 0 12px;
+}
+
+#battery {
+  color: @color2;
+  padding: 0 12px;
+  background: transparent;
+}
+
+#battery.warning {
+  color: @color11;
+  background: transparent;
+}
+
+#battery.critical {
+  color: @color1;
+  background: transparent;
+}
+
+#battery.charging {
+  background: transparent;
+}
+
+#battery:hover,
+#battery:focus,
+#battery:active {
+  background: transparent;
+}
+
+#cpu {
+  color: @color6;
+  padding: 0 12px;
+}
+
+#memory {
+  color: @color12;
+  padding: 0 12px;
+}
+
+#clock {
+  color: @color14;
+  padding: 0 12px;
+}
+
+#tray {
+  color: @color13;
+  padding: 0 12px;
+}
+
+#mode {
+  color: @color9;
+  padding: 0 12px;
+}
+
+#custom-media {
+  color: @color3;
+  padding: 0 12px;
+}

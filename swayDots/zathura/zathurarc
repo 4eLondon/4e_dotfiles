@@ -1,0 +1,34 @@
+# Window settings
+set window-height 800
+set window-width 1200
+set window-title-basename true
+
+# Display settings
+set adjust-open "best-fit"
+set pages-per-row 1
+set scroll-page-aware "true"
+set scroll-full-overlap 0.01
+set scroll-step 100
+
+# Behavior
+set selection-clipboard clipboard
+set incremental-search true
+set statusbar-home-tilde true
+
+# Keybindings
+map <C-q> quit
+map <C-n> next
+map <C-p> previous
+map <C-h> scroll left
+map <C-j> scroll down
+map <C-k> scroll up
+map <C-l> scroll right
+map <C-g> goto top
+map <C-m> goto page
+map <C-r> reload
+map <C-f> forward
+map <C-b> back
+map [fullscreen] f
+map <C-+> zoom in
+map <C--> zoom out
+map <C-0> zoom normal

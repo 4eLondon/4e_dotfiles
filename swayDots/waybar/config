@@ -1,0 +1,143 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 35,
+    "spacing": 4,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+
+    "css": "~/.config/waybar/style.css",
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["sway/window"],
+    "modules-right": [
+        "custom/internet-check",
+        "network",
+        "cpu",
+        "memory",
+        "pulseaudio",
+        "backlight",
+        "battery",
+        "clock",
+        "tray"
+    ],
+
+    // Workspaces
+"sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}",
+    "format-icons": {
+        "1": "󰇄",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "urgent": "",
+        "focused": "",
+        "default": ""
+    }
+},
+
+
+
+    // Window title
+    "sway/window": {
+        "format": "{}",
+        "max-length": 20
+    },
+    // Network
+    "network": {
+    "format": "{ifname}",
+    "format-wifi": " {essid} ({signalStrength}%)",
+    "format-ethernet": "󰊗 {ifname}",
+    "format-disconnected": "󰖪 Disconnected",
+    "format-linked": "󰊗 {ifname} (No IP)",
+    "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+    "on-click": "kitty --class=nmtui-terminal -e nmtui",
+    "on-click-right": "pkill -f 'kitty.*btop'"
+},
+"custom/internet-check": {
+    "exec": "~/.config/waybar/networkCheck",
+    "interval": 5,
+    "return-type": "json",
+    "format": "{}"
+},
+
+    // PulseAudio
+    "pulseaudio": {
+        "format": "{volume}% {icon}",
+        "format-muted": " Muted",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-bluetooth-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "scroll-step": 1,
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    },
+
+
+    // Brightness
+    "backlight": {
+        "device": "amdgpu_bl1",
+        "format": "{icon} {percent}%",
+        "format-icons": ["","","","","","󰽦",""],
+        "on-scroll-up": "brightnessctl set 5%+",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+
+    // Battery
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% 󱐋",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    // CPU
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false,
+        "interval": 2,
+        "on-click": "kitty --class=btop-terminal -e btop",
+        "on-click-right": "pkill -f 'kitty.*btop'"
+    },
+
+    // Memory
+    "memory": {
+        "format": "{}% ",
+        "interval": 2, 
+        "on-click": "kitty --class=btop-terminal -e btop",
+        "on-click-right": "pkill -f 'kitty.*btop'"
+    },
+
+    // Clock
+    "clock": {
+    "format": "{:%b, %d, %Y %H:%M}",
+    "format-alt": "{:%Y-%m-%d %H:%M:%S}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "interval": 1,
+    "on-click": "kitty --class=calcurse-terminal -e calcurse",
+    "on-click-middle": "pkill -f 'kitty.*calcurse'"
+},
+       // Tray
+    "tray": {
+        "icon-size": 21,
+        "spacing": 10
+    }
+}

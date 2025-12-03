@@ -1,0 +1,64 @@
+# Mako config template for pywal
+# Save as ~/.config/mako/config.template
+
+# Appearance
+font=JetBrainsMono Nerd Font 10
+background-color=#0a0a0a66
+text-color=#e1e1e1
+border-color=#B8CD48
+border-size=2
+border-radius=12
+
+# Layout
+width=300
+height=100
+margin=10
+padding=10
+
+# Behavior - FAST disappearing
+default-timeout=2000
+ignore-timeout=0
+
+# Position
+anchor=top-right
+layer=overlay
+
+# Progress bar
+progress-color=over #B8CD48
+
+# Grouping
+group-by=app-name
+max-history=50
+max-visible=3
+
+# Icons
+icons=1
+max-icon-size=48
+icon-location=left
+
+# Actions
+on-button-left=dismiss
+on-button-middle=dismiss-all
+on-button-right=dismiss
+
+# Format
+format=<span font_weight='bold'>%s</span>\n%b
+
+# Urgency levels
+[urgency=low]
+background-color=#0a0a0a66
+border-color=#B8CD48
+text-color=#e1e1e1
+default-timeout=1500
+
+[urgency=normal]
+background-color=#0a0a0a66
+border-color=#B8CD48
+text-color=#e1e1e1
+default-timeout=2000
+
+[urgency=critical]
+background-color=#0a0a0a66
+border-color=#99A84B
+text-color=#99A84B
+default-timeout=0

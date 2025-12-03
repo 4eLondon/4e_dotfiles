@@ -1,0 +1,12 @@
+show=drun
+prompt=›
+insensitive=true
+allow_images=true
+width=20%
+height=25%
+orientation=vertical
+no_actions=true
+content_halign=fill
+always_parse_args=true
+filter_rate=100
+term=kitty

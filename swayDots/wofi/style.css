@@ -1,0 +1,45 @@
+/*style_11*/
+@import url("/home/london/.cache/wal/colors-waybar.css");
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
+  border: none;
+}
+
+#window {
+  background-color: rgba(12, 13, 15, 0.6);
+}
+
+#input {
+  background-color: @color3;
+  color: @color7;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+
+#scroll {
+  margin-top: 5px;
+}
+
+#entry {
+  padding: 8px;
+  border-radius: 6px;
+  color: @background;
+  background-color: transparent;
+}
+
+#entry:selected {
+  background-color: @color3;
+}
+
+#text:selected {
+  color: @color7;
+}
+
+#text {
+  color: @color3;
+  padding: 0px 5px;
+}
