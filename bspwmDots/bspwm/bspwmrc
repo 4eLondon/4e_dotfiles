@@ -1,0 +1,59 @@
+#!/bin/sh
+
+# Create log file
+LOG="$HOME/.bspwm-startup.log"
+echo "$(date): Starting bspwmrc" > "$LOG"
+
+# Detect monitor
+monitor=$(bspc query -M | head -n1)
+echo "Using monitor: $monitor" >> "$LOG"
+sleep 0.5
+
+# Create workspaces
+echo "Creating workspaces..." >> "$LOG"
+bspc monitor "$monitor" -d 1 2 3 4 5 >> "$LOG" 2>&1
+echo "Desktop IDs after creation:" >> "$LOG"
+bspc query -D >> "$LOG"
+
+# Window settings
+bspc config border_width 2
+bspc config window_gap 12
+bspc config split_ratio 0.50
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+bspc config focus_follows_pointer true
+bspc config pointer_follows_focus false
+echo "Window settings configured" >> "$LOG"
+
+# restart
+for app in sxhkd picom polybar udiskie unclutter; do
+    pkill -x "$app" 2>/dev/null
+done
+
+# Wait for WM to fully initialize
+sleep 1
+echo "WM initialized" >> "$LOG"
+
+# --- Start Services ---
+sxhkd & 
+picom --backend glx --vsync & 
+udiskie -t & 
+unclutter --timeout 3 & 
+
+sleep 1
+pkill -x polybar 2>/dev/null
+polybar main >> "$LOG" 2>&1 &
+
+# --- Wallpaper ---
+WALLPAPER_DIR="$HOME/Pictures/wallpapers"
+CURRENT_WP="$HOME/.current-wallpaper"
+
+if [ -f "$CURRENT_WP" ] && [ -f "$(cat "$CURRENT_WP")" ]; then
+    feh --bg-fill "$(cat "$CURRENT_WP")"
+else
+    wp=$(find "$WALLPAPER_DIR" -type f \( -iname '*.jpg' -o -iname '*.png' \) | shuf -n1)
+    [ -n "$wp" ] && feh --bg-fill "$wp" && echo "$wp" > "$CURRENT_WP"
+fi
+
+echo "$(date): bspwmrc completed" >> "$LOG"
+

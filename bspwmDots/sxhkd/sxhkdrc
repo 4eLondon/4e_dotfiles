@@ -1,0 +1,120 @@
+
+
+# # # # # # # # # [ Launch Keys  ] # # # # # # # # # 
+
+# Launch terminal
+super + q
+ kitty
+
+# Reload config
+super + shift + Escape
+ pkill -USR1 -x sxhkd; \
+ bspc wm -r; \
+ pkill -x picom; picom & \
+ pkill -x polybar; polybar main & \
+ dunstify "Reloaded"
+
+# Exit bspwm with confirmation
+super + alt + Escape
+ rofi -dmenu -p "Exit bspwm? [y/n]" < /dev/null | grep -q "^y" && bspc quit
+
+# Launcher
+super + d
+ rofi -show drun
+
+
+# # # # # # # # # [ Desktop & Windows Keys  ] # # # # # # # # # 
+
+
+# Quit/Kill window
+super + {_,shift + }c
+ bspc node -{c,k}
+
+# Focus/swap nodes
+super + {_,shift + }{Left,Down,Up,Right}
+ bspc node -{f,s} {west,south,north,east}
+
+# Switch desktops
+super + {1-9,0}
+ bspc desktop -f '^{1-9,10}'
+
+# Resize windows with arrow keys
+# Grow
+super + alt + {Left,Down,Up,Right}
+ bspc node -z {left 20 0,bottom 0 20,top 0 20,right 20 0}
+# Shrink
+super + ctrl + {Left,Down,Up,Right}
+ bspc node -z {left -20 0,bottom 0 -20,top 0 -20,right -20 0}
+
+# Switch workspaces
+ctrl + alt + {Left,Right}
+    bspc desktop -f {prev,next}
+
+# Move window to desktop
+super + shift + {1-9,0}
+ bspc node -d '^{1-9,10}'
+
+# Toggle window states
+super + {shift+t,shift + f,f,t}
+ bspc node -t {pseudo_tiled,~floating,~fullscreen,~tiled}
+
+# Send Active window to the largest window
+super + s
+    bspc node -s "$(bspc query -N -d focused -n biggest.!focused)"
+
+# Preselect and create rectangle division
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east} && bspc node -o 0.5
+
+# Cancel preselection
+super + ctrl + space
+    bspc node -p cancel
+
+# # # # # # # # # [ Script & Command Keys  ] # # # # # # # # # 
+
+
+# Wallpaper controls
+
+# Next wallpaper
+super + alt + b
+ ~/.config/scripts/wallpaper-next.sh
+
+# Previous wallpaper
+super + ctrl + b
+ ~/.config/scripts/wallpaper-prev.sh
+
+# Random wallpaper
+super + shift + b
+ ~/.config/scripts/wallpaper-random.sh
+
+Print
+    maim ~/Pictures/screenshots/full_$(date +%Y-%m-%d_%H-%M-%S).png
+
+# Screenshot of active window (Alt + PrtSc)
+Alt + Print
+    maim -i $(xdotool getactivewindow) ~/Pictures/screenshots/window_$(date +%Y-%m-%d_%H-%M-%S).png
+
+# Select area screenshot (Shift + PrtSc)
+Shift + Print
+    maim -s ~/Pictures/screenshots/area_$(date +%Y-%m-%d_%H-%M-%S).png
+
+# Brightness Down
+XF86MonBrightnessDown
+ brightnessctl set 10%- && dunstify "Brightness: $(brightnessctl g)%"
+
+# Brightness Up
+XF86MonBrightnessUp
+ brightnessctl set +10% && dunstify "Brightness: $(brightnessctl g)%"
+
+# Volume down
+XF86AudioLowerVolume
+ pulsemixer --change-volume -5
+
+# Voulume up
+XF86AudioRaiseVolume
+ pulsemixer --change-volume +5
+
+# Mute
+XF86AudioMute
+ pulsemixer --toggle-mute 
+
